@@ -1,0 +1,70 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Random Quote App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 50px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: lightblue;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        display: block;
+        margin: 0 auto;
+      }
+      #quote {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: white;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 0 10px gray;
+      }
+      footer {
+        text-align: center;
+        margin-top: 50px;
+        font-size: 14px;
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Random Quote App</h1>
+    <button onclick="getQuote()">Get Quote</button>
+    <div id="quote"></div>
+    <footer>&copy; 2023 Richard</footer>
+    <script>
+      function getQuote() {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://api.quotable.io/random", true);
+        xhr.onload = function () {
+          if (this.status === 200) {
+            let quoteData = JSON.parse(this.responseText);
+            let output = `
+              <p>"${quoteData.content}"</p>
+              <p>- ${quoteData.author}</p>
+            `;
+            document.getElementById("quote").innerHTML = output;
+          } else {
+            document.getElementById("quote").innerHTML =
+              "<p>Could not get quote</p>";
+          }
+        };
+        xhr.send();
+      }
+    </script>
+  </body>
+</html>
